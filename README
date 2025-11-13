@@ -1,1 +1,75 @@
-Bomberman Game - Gameboy inspired 
+# Bomberman Game (Game Boy Inspired)
+
+This project recreates the classic Game Boy Bomberman experience with a tile-based arena, 1v1 multiplayer, and a lightweight Python code base. The code is organised into a `src/` directory for runtime modules, `assets/` for sprite data, and `tests/` for simulation-driven validation of the main mechanics.
+
+## Features
+
+- Authentic 13x11 Bomberman arena layout with indestructible pillars and destructible crates.
+- Basic sprite set stored in the `assets/` folder and scaled to match the Game Boy aesthetic.
+- Player movement, bomb placement, explosion propagation, and simple power-up upgrades (extra bomb and flame length).
+- Local 1v1 support using keyboard input (WASD/Space for Player 1 and arrow keys/Enter for Player 2).
+- Round management with score keeping and quick reset functionality.
+- Headless game-state tests covering tile destruction, collision handling, power-up collection, and win detection.
+
+## Requirements
+
+- Python 3.10+
+- [pygame](https://www.pygame.org/)
+- [pytest](https://docs.pytest.org/)
+
+Install the dependencies with:
+
+```bash
+python -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+```
+
+## Running the Game
+
+```bash
+python -m src.main
+```
+
+The window opens at the scaled Game Boy resolution. Player 1 uses `WASD` to move and `Space` to drop bombs. Player 2 uses the arrow keys and `Enter`. Press `Esc` to quit or `R` to reset after a round ends.
+
+> **Note:** pygame requires an available display environment. When running on a headless machine, configure SDL with a virtual display (e.g., `SDL_VIDEODRIVER=dummy`) before starting the game.
+
+## Running Tests
+
+Execute the automated tests headlessly with:
+
+```bash
+pytest
+```
+
+These tests interact directly with the simulation logic, so they do not require a graphical environment.
+
+## Project Structure
+
+```
+├── assets/
+│   ├── powerups/
+│   ├── sprites/
+│   └── tiles/
+├── requirements.txt
+├── src/
+│   ├── bomberman/
+│   └── main.py
+└── tests/
+```
+
+- `src/bomberman/` holds the arena, entity, state management, and asset loader modules.
+- `src/main.py` is the executable entry point that wires pygame rendering to the simulation.
+- `assets/` contains simple PPM sprites that are scaled at runtime.
+- `tests/` contains pytest cases that validate movement, bombing, power-ups, and win conditions.
+
+## Packaging Notes
+
+The project relies only on pygame and pytest, both defined in `requirements.txt`. Create a distributable archive with:
+
+```bash
+python -m build
+```
+
+(Install `build` if needed: `pip install build`). The resulting wheel includes the source modules; ensure the `assets/` directory is bundled when distributing the game.
